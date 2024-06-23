@@ -1,0 +1,107 @@
+================================================================================
+MAX150 Module 1: Introducing application networks and API-led connectivity
+================================================================================
+
+- Digital pressures create a widening transformation delivery gap
+- CentralIT uses delivery capacity to create reusable assets for rest of org
+- Enable business to self-serve and delivery their projects
+- Distribute workload across organization
+
+--------------------------------------------------------------------------------
+Introducing a new IT operating model
+--------------------------------------------------------------------------------
+
+- Members in LoB IT Produce assets for rest of organization
+- Emphasis on consumption over production
+- Production consumption cycle, feedback and metrics continue cycle
+- Using common approach
+    - On time and within budget
+    - Limited opportunity for reuse, tight coupling, difficult to govern
+    - 6 months later, mobile app is repeating functionality due to lack of understanding
+- Discoverable
+- Productized, designed for ease of consumption
+- Easily managed for security, scalability, and performance
+- API-Led Connectivity
+    - Web App API - Experience API
+    - Order Status, Customers, Order History - Process APIs 
+    - SAP Customers, Salesforce customers, Orders - System APIs
+- Mobile app introduced
+    - Create new Experience API
+    - Create new process API for shipment status
+    - Create new system APIs for Toll shipments and UPS shipments
+- Central IT - Unlock assets and decentralize access
+- LOB IT - Discover, reuse and compose information
+- Developers - Discover, self-serve re-use and consume
+- Center for Enablement (C4E)
+    - Ensures assets are productized and published
+    - Consumable
+    - Consumed broadly
+    - Fully leveraged
+    - Success measured by consumption of assets
+
+--------------------------------------------------------------------------------
+Achieving an Application Network
+--------------------------------------------------------------------------------
+
+- Addition of every new node adds significantly more value than previous ones
+- Connections are meant to be networked, nodes to other nodes to other nodes
+
+--------------------------------------------------------------------------------
+Deconstructing APIs
+--------------------------------------------------------------------------------
+
+- API - Application Programming Interface
+    - Info for how to communicate with a software component
+    - 1. API Specification
+    - 2. A web service
+    - 3. An API Proxy
+- Web Service
+    - Different software systems need to be able to exchange data
+    - Method of communication that allows two systems to communicate over the internet
+    - Systems interact with the web service in a manner perscribed by some defined rules of communication
+- The Web Service API
+    - How you interact with the web service
+    - Defined in a file
+    - Implement some API description language
+- The Web service interfacting implementing the API
+    - The code providing structure to the application so it implements the API
+    - May be combined with imeplementation code
+- The web service implementation itself
+    - Actual code and application
+
+= SOAP (eww)
+    - Traditional, more complex type
+    - Typically XML-based WSDL
+= RESTful
+    - Recent, simpler type
+    - Typically use HTTP and JSON
+    - Representational State Transfer
+    - Stateless
+    - Clients can cache
+    - HTTP method indicates operation that should be done
+        - GET, POST, DELETE, PATCH, PUT, etc.
+
+- API Documentation
+    - All possible resources
+    - API Portals - give devs a central place to discover the tools they need to use the API (Exchange)
+    - API Directories and marketplaces - APIs.guru
+
+--------------------------------------------------------------------------------
+Calling RESTful Web Services
+--------------------------------------------------------------------------------
+
+- To call web services you need to use a tool
+- Make calls to unsecured and secured APIs (unsecured = no auth), (secured = auth, OAuth, SAML, etc.)
+- HTTP status codes.. 418 I'm a Teapot :)
+
+--------------------------------------------------------------------------------
+Successfully creating application networks using API-Led Connectivity
+--------------------------------------------------------------------------------
+
+- Create APIs that developers can find and want to use/share with others
+- API design-first approach
+- Get API design right before building it
+- Feedback -> implement -> feedback -> implement
+- Design -> Simulate -> Feedback -> Validate
+    -> Build -> Test
+    -> Version -> Secure -> Deploy and Register -> Monitor -> Analyze -> Troubleshoot -> Scale -> Respond

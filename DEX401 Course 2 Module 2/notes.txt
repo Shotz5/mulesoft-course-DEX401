@@ -1,0 +1,74 @@
+--------------------------------------------------------------------------------
+Encapsulating processors into separate flows and subflows
+--------------------------------------------------------------------------------
+
+- Makes graphical view more intuitive
+- Makes XML easier to read
+- Enables code reuse
+- Provides separation between interface and implementation
+- Easier to test
+
+- Flows have their own error handling strategy, subflows don't
+- Flows without event sources are called private flows
+- Subflows are executed the same as if they're in the calling flow (syncronous)
+- Add a new scope, flow or subflow
+- Event provessor to canvas, creates a flow
+- Extract to
+- Use flow reference comonent to pass events to other flows or subflows
+- Variables persist through all flows unless the event crosses a transport boundary
+
+--------------------------------------------------------------------------------
+Passing events between flows using async queues
+--------------------------------------------------------------------------------
+
+- When using Flow Reference, events are passed syncronously between flows
+- You may want to pass events async between flows to
+    - Achieve higher levels of parallelism in specific stages
+    - Allow for more specific tuning of area within a flows architecture
+    - Distrubute work across a cluster
+    - Communicate with another application running in the same mule domain
+    - Imeplement simple queueing that does not justify a full JMS broker
+- Accomplished using the VM connector
+- YUsing the connector for intra and inter application communication through async queues
+- Add the VM module to the project
+- Configure a global element config
+    - Queue name and type (transiest or persistent)
+    - in-memory queues
+    - Transient are much faster, but lost in system crash
+    - Persistent queues slower but reliable
+- Use operations to publish and/or consume events
+
+--------------------------------------------------------------------------------
+Organizing mule application files
+--------------------------------------------------------------------------------
+
+- Just as we separated flows into multiple flows, can separate config files
+- Monolithic files hard to read and maintain
+- Separating into multiple configs makes sense, OOP, but for Mule
+- Reference global elements in one file in various unlrelated files
+    - Confusing
+- Put global elements in one config file
+- Don't want all flows in one application/project
+- Separtate functionality into multiple applications
+    - Managing/monitoring as separate entities
+    - Use different incompatible JARs
+- Run more than one app at once using run configurations for multiple projects
+
+- Domain project to share gloabl configs between applications
+    - Consistence between apps on any changes
+    - Expose multiple services within the domain on the same port
+    - Share the connection to persistent storage
+    - Call flows in other applications using the VM connector
+- Only available on customer-hosted, not CloudHub or RTF
+- Associate mule applications with a domain
+
+--------------------------------------------------------------------------------
+Organizing and parameterizing application properties
+--------------------------------------------------------------------------------
+
+- Provides an easier way to manage connector properties, credentials, and other configurations
+- Replace static values
+- Are defined in a config file
+- Using property placeholders
+- Can be encrypted
+- Can be overriden by system properties in different environments

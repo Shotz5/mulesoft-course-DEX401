@@ -1,0 +1,114 @@
+--------------------------------------------------------------------------------
+Introducing Mule 5 APIs
+--------------------------------------------------------------------------------
+
+- Mule applications receive events, process them, and route them to other endpoints
+- Mule applications accept and process a mule event through a series of Mule event processors plugged together in a flow
+- An application can consist of
+    - A single flow
+    - Multiple flows
+    - Multiple flows connected together
+- A mule event source that initiates the execution of the flow
+    - Triggered by consumer request from mobile device, change to data in a db, creation of a new customer ID in a SaaS app
+    - Mule event processors that transform, filter, enrich, and process the event and its message
+    - Mule event source -> Mule event processor(s) -> Mule event processor(s) -> Connector endpoint
+- Mule event data structure
+    - Mule message
+        - Attributes
+            - Contains details on the payload
+        - Payload
+            - The actual data you'd like to process
+            - eg post HTTP, payload contains body, attributes contain headers
+    - Variables
+
+--------------------------------------------------------------------------------
+Creating Mule Applications with Anypoint Studio
+--------------------------------------------------------------------------------
+
+Eclipse :(
+- Perspecives -> collection of panels
+- Package explorer, outline view, canvas, mule palette, console
+- Mule flow contains three sections
+    - Event 
+        - Optional, but may contain information on how triggered from outside the application
+        - Left empty, private, only triggered within the application
+    - Event processors
+        - Must have one or more processors
+    - Error handling
+        - Optional
+        - Processors to execute on error in other processes
+- XML contains information
+- Building blocks
+    - In Mule Palette
+    - By default include HTTP and Sockets modules
+    - Can add others
+- Comes with embedded runtime to run apps without leaving studio
+- Console outputs logs and info
+- Deployed = Running, Failed = Bad
+- Automate testing using MUnit
+    - Mule app testing framework
+    - Fully integrated with Anypoint Studio
+    - Create just like flows
+
+--------------------------------------------------------------------------------
+Connecting to Data
+--------------------------------------------------------------------------------
+
+- Can connect to almost any JDBC relational db
+- Any DB engine for which you have a driver
+    - Add database module to project
+    - Add DB operation to flow
+    - Configure connection to DB
+
+--------------------------------------------------------------------------------
+Transforming Data
+--------------------------------------------------------------------------------
+
+- Data returned is in JAVA format, can't be displayed, needs to be transformed
+- DataWeave 2.0 is the expression language for Mule to access, query, and transform Mule 4 event data
+- Fully integrated with studio
+- Dataweave playground
+- Use Dataweave visual mapper to change response to a different JSON structure
+
+--------------------------------------------------------------------------------
+Creating RESTful Interfaces Manually for Mule applications
+--------------------------------------------------------------------------------
+
+- A rESFUL interface should have listeners for each resource / method pairing defined by the api
+- Route based on path
+- Use a URI parameter in the path of a new HTTP listener
+- Route based on HTTP method
+
+--------------------------------------------------------------------------------
+Generating RESTful interfaces automatically using APIKit
+--------------------------------------------------------------------------------
+
+- APIKit open-source toolkit that includes anypoint studio plugin
+- APIKit plugin can generate an interface automatically from a RAML documentation
+- Generates main routing flow and flows for each resource/method pairs
+- Add processors to the resource flows to hook up your backend logic
+
+--------------------------------------------------------------------------------
+Connecting interfaces to implementations
+--------------------------------------------------------------------------------
+
+- Flows can be broken into multiple flows
+- Makes the graphical view more intuitive and the XML code easier to read
+- Promotes code reuse
+- Pass an event from one flow to another
+- Call the backend flows
+
+--------------------------------------------------------------------------------
+Syncronizing changes to API specifications between Anypoint Studio and Anypoint Platform
+--------------------------------------------------------------------------------
+
+- API Sync
+    - Pull specs from design center into studio
+    - Edit the specification offline in Anypoint Studio
+    - Push the updates back to Design Center
+    - Publish the new API asset version to Exch
+- Develop mule applications while following API lifecycle dev practives
+- Changes in Exchange, the generated API interface in Anypoint can be changed
+- API Design perspective includes a Git staging tab
+    - Git it used to pull push and merged branches made to api specs
+    - If someone modifies the version in Design Center while you're modifying the same version locally, a conflict is triggered

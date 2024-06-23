@@ -1,0 +1,102 @@
+--------------------------------------------------------------------------------
+Introducing Deployment Options
+--------------------------------------------------------------------------------
+
+- Applications are deployed to an embedded mule runtime in anypoint studio
+- For everything else, apps can be deployed to
+    - Cloudhub and Cloudhub 2.0, which is just AWS
+    - Customer hosted mule runtimes (your own hosting)
+    - Anypoint runtime fabric, customer hosted container service
+- Cloudhub benefits:
+    - Simplicity, manages HW and SW maintenance
+    - Infra for DNS and load balancing
+    - Datacenters around the world
+- Customer hosted
+    - Easy to install
+    - Minimal resources
+    - Multiple applications
+    - Controls JVM
+- A deployment model of the runtime plane
+    - Automates orchestration of apps and api gateways
+    - Hosted by Mulesoft
+    - Runs on customer hosted infra
+    - Isolation between apps
+    - Re-deployments with 0 downtime
+    - Automated application failover horizontal scaling
+    - Multiple versions of Mule runtime
+- Visualizer real time view into app architecture
+- APIs and apps into relational diagrams
+- Secure and automatically and dynamically updated
+- Monitoring tools, actionalable data about mule apps
+
+--------------------------------------------------------------------------------
+Deploying Applications to Cloudhub
+--------------------------------------------------------------------------------
+
+- You can deploy from anypoint studio or platform to Cloudhub using Runtime manager
+- Set worker size and number
+- Worker is dedicated VM that runs the app
+- Each worker runs in a separate VM
+    - is deployed and monitored
+    - runs in a specific worker cloud in a region of the world
+- Different memory and processing power
+    - Horizontal or vertical scaling
+- Different in different envs
+
+--------------------------------------------------------------------------------
+Creating API Proxy
+--------------------------------------------------------------------------------
+
+- API Proxy controls access to a web service, restricting access and usage through use of an API Gateway
+- The API Gateway is a runtime designed and optimized to host an API or to open a connection to an API deployed to another runtime
+- Separates orchestration from imeplementation\
+- Determines which traffic is authorized to pass through the API to backend services
+- Meters the traffic flowing through
+- Logs all transactions, analytics
+- Applies runtime policies
+- Create proxy applications
+- Deploy procies to an API gateway runtime
+    - Mule gateway - Cloudhub, or customer-hosted
+    - Flex gateway - fast lightweight env dependent
+- Specify throttling, security and other policies
+- Specify tiers with different types of access
+- Approve reject or revoke access to APIs by clients
+- Promote managed APIs between environments
+- Review analytics
+
+--------------------------------------------------------------------------------
+Restricting Access to APIs
+--------------------------------------------------------------------------------
+
+- API Manager used to define SLA tiers and runtime policies
+- API Gateway enforces the policies
+- OOB policies, client id, OAuth, header injection/removal, basic auth, ip whitelists, JSON threat protection, etc.
+- Can define custom policies using XML and YAML
+- Apply multiple policies and set order
+- Automated policies
+- SLA Tiers define number of requests per time frame to an API
+    - Request approval can be set to automatic or manual
+
+--------------------------------------------------------------------------------
+Granting Access to APIs
+--------------------------------------------------------------------------------
+
+- To enforce, apply an SLA based rate limiting policy
+- SLA based policies require all applications that consume the api to
+    - Register for access to a specific tier
+    - Pass their client credentials in calls made to the API
+- If an API has an SLA-based policy, a request access button appears in API portal
+- To request access, developer must belong to anypoint platform org and be signed in
+- When developers request access they must register/add an app to their anypoint platform account
+    - and select a tier
+- For tiers with manual approval, emails are sent to org admins when devs request access
+- Org admins can review and approve, reject or revoke
+
+--------------------------------------------------------------------------------
+Adding client ID enforcement to API specifications
+--------------------------------------------------------------------------------
+
+- You need to add client ID encforcement to the API spec for the
+    - REST connector that is created for the API to enforce the authentication
+    - Required headers to automatically show up in the API console so you don't have to manually add them for each call
+- Instructions in RAML snippet for a policy in API manager

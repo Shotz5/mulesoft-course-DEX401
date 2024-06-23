@@ -1,0 +1,35 @@
+--------------------------------------------------------------------------------
+Introducing Anypoint Platform
+--------------------------------------------------------------------------------
+
+- Unified platform with all compoentns for API lifecycle
+- Includes tools to create Modern APIs designed for ease of consumption using design center
+- Discorverable through exchange
+- Managed for security and scalable using management center
+- Mule runtime - application server
+- Design once and deploy anywhere
+- On prem, cloudhub, private cloud, same connectivity options no matter deployment
+- Speed of delivery
+- Actionable visibility
+- Secure by design
+- Future-proof architecture
+- Intentional self-service
+
+--------------------------------------------------------------------------------
+Achieving Success with Anypoint Platform
+--------------------------------------------------------------------------------
+
+- Mulesoft Catalyst
+    - Business outcomes with KPIs
+    - Technology delivery
+    - Organisation enablement
+        - Center for Enablement
+        - Internal Support
+        - Training
+- Business drivel
+
+--------------------------------------------------------------------------------
+Introducing the Components of Anypoint Platform
+--------------------------------------------------------------------------------
+
+Design -> Simulate -> Feedback -> Validate -> API Spec

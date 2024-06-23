@@ -1,0 +1,73 @@
+--------------------------------------------------------------------------------
+Designing APIs
+--------------------------------------------------------------------------------
+
+- Benefits of design before actually building it
+- Spec-driven development
+- Design -> Simulate -> Feedback -> Validate 
+    - API Spec
+    - API Designer, API Console/Mocking Service, API Portal/Exchange, API Spec
+
+--------------------------------------------------------------------------------
+Introducing RAML
+--------------------------------------------------------------------------------
+
+- Simple structured way to describe APIs
+- Vendor neutal, open spec
+- Autogenerate documentation
+- RAML -> YAML Syntax
+- Resources are the objects identified by the web service url you want to act upon using the HTTP method for the request
+    - begin with dlash
+    - Methods and parameters nested belong belong to and act on this resource
+    - Nested resources are used for a subset of a resource to narrow it
+
+--------------------------------------------------------------------------------
+Testing API Design without writing code
+--------------------------------------------------------------------------------
+
+- You can mock an API to test before implementation
+- Use the API Console and the mocking service to run a live simulation
+- Returns sample API responses defined in the API definition
+- Mocking is available to outside stakeholders through sharable links
+- Available in API designer, API portals in exchange
+
+--------------------------------------------------------------------------------
+Use RAML to define specifications for requests and responses
+--------------------------------------------------------------------------------
+
+- Responses much be a map of one or more HTTP status codes
+- For each response, specify possible return data types along with descriptions and examples
+- For a request, similarly specify the possible request data types along with descriptions and examples
+- example/examples
+    - example represents single instance of the data
+    - examples represents multiple instances of the data as a map of key/value pairs
+- RAML is highly modular
+- Data types, examples, traits, resource types, overlays, extensions, security schemes, documentation, annotations, and libraries
+- Fragments can be stored
+    - In different files and folders
+    - In a separate API frament project in Design Center
+    - In a separate RAML fragment in exchange
+
+--------------------------------------------------------------------------------
+Engaging with Users
+--------------------------------------------------------------------------------
+
+- Publish to API exchange creates an API ports
+- Users can navigate and test without writing code
+- When publishing assets, you specify their state in the dev lifecycle
+    - Development, still in iterative design process
+    - Stable, ready for consumption
+        - *required for Studio import or API Manager governance*
+- API Portals are automatically created for REST APIs added to exchange
+    - An API Console for consuming and testing APIs
+    - An automatically generated API endpoint that uses a mocking service to allow the API to be tested without having to implement it
+    - API portals can be shared with both internal and external users
+- Publish an API to Exchange from API Designer
+
+--------------------------------------------------------------------------------
+Sharing an API
+--------------------------------------------------------------------------------
+
+- You can share an API in exchange with other internal or external users
+- Share an API within an org through private exchange
+- Share an API with external users in a public portal that you create from Exchange

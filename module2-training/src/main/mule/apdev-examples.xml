@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd">
+	<flow name="helloFlow" doc:id="b725064c-27df-4c4b-997a-67705798da51" >
+		<http:listener doc:name="GET /hello" doc:id="10c3fa65-01af-46bb-bb68-2064619da790" config-ref="HTTP_Listener_config" path="/hello" allowedMethods="GET">
+			<http:response reasonPhrase="Success" >
+				<http:headers ><![CDATA[#[output application/java
+---
+{
+	"name" : vars.firstName
+}]]]></http:headers>
+			</http:response>
+		</http:listener>
+		<flow-ref doc:name="subflow" doc:id="d3e4c292-64fe-4c10-88d2-7454024d582e" name="subflow"/>
+		<vm:publish queueName="goodbye" doc:name="VM goodbye" doc:id="e97628a7-eda2-4aae-85d4-056db24de3ae" config-ref="VM_Config"/>
+		<logger level="INFO" doc:name="payload" doc:id="cc0c3343-e6b1-4512-8795-c63292b48308" message="#['\nMessage: ' ++ payload]"/>
+	</flow>
+	<sub-flow name="subflow" doc:id="a3332fac-1cce-415b-b3be-79890e15f456" >
+		<set-variable value="#[message.attributes.queryParams.fname]" doc:name="firstName" doc:id="bd84adba-137f-467d-9bc2-77854894955d" variableName="firstName" />
+		<set-payload value="Hello" doc:name="Hello" doc:id="719c2bbb-84ae-4a84-99d2-8298a0a6e70d" />
+	</sub-flow>
+	<flow name="goodbyeFlow" doc:id="422e284b-698d-47b9-b41f-fdac943e3f2e" >
+		<vm:listener queueName="goodbye" doc:name="VM goodbye" doc:id="e7cdacb3-62cc-41e7-93ef-56c63acc228a" config-ref="VM_Config"/>
+		<set-payload value="#[upper('Goodbye') ++ ' ' ++ (attributes.queryParams.fullName default 'Maxine')]" doc:name="Goodbye" doc:id="30a2f019-043e-4528-9c87-07c2cc758e0b" />
+		<logger level="INFO" doc:name="fullName" doc:id="12d8f367-c7b1-4ab3-9c08-9f9b2e6e9e92" message="#[attributes.queryParams.fullName]"/>
+	</flow>
+</mule>

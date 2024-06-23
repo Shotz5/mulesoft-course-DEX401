@@ -1,0 +1,82 @@
+--------------------------------------------------------------------------------
+Accessing and Modifying Mule Events
+--------------------------------------------------------------------------------
+
+- Debugging is essential to development, integrated debugger
+- Can view mule event to see how data is transformed
+
+--------------------------------------------------------------------------------
+Viewing information in Mule 4 events
+--------------------------------------------------------------------------------
+
+- Mule data structure for mule event
+- HTTP request
+    - Attributes -> HTTP Request attributes, headers, query params, etc
+    - Payload is body
+- At design time
+    - At design time in Anypoint Studio using datasense
+    - In the transform message component
+    - In the datasense explorer
+    - Datasense is the ability to proactively discover metadata from internal and external resources
+        - Keeps you from having to manually discover info about the data
+        - Facilitates transformations byu providing Dataweave expected input or output
+        - If datasense is timing out, a notification will appear
+        - A red dot Datasense indicator will also appear in the lower left corner
+- At run time
+    - Client when making a request
+    - For deployed apps in the logfile
+    - Anypoint studio logging
+    - Debugger
+- Logger component logs values and string whenever desired
+
+--------------------------------------------------------------------------------
+Debugging Mulesoft Applications
+--------------------------------------------------------------------------------
+
+- Can add breakpoints to processors and step through the application
+    - Watch event properties and values
+    - Watch and evaluate Dataweave expressions
+    - Can be managed from the breakpoints list
+- Debugger listens on localhost port 6666
+
+--------------------------------------------------------------------------------
+Tracking event data as it moves in and out of mule applications
+--------------------------------------------------------------------------------
+
+- What happens to event object when calls are made to an external resource from a flow
+
+--------------------------------------------------------------------------------
+Setting request and response data
+--------------------------------------------------------------------------------
+
+- Use set payload transformer to set the payload
+- Set in the HTTP listener properties view -> Responses
+- Set in the HTTP Request properties view -> General
+
+--------------------------------------------------------------------------------
+Use Dataweave to read/write event data
+--------------------------------------------------------------------------------
+
+- A mule-specific expression and transformation language
+- Can be used to access and evaluate the data in the payload, attributes, and values of a Mule event
+- Accessible and usable from all event processors and global elements
+- Case-sensitive
+- Easy to use with auto-complete everywhere
+- Standalone scripts
+    - Can be generated using the transform message graphical editor
+- Inline expressions
+    - Dynamically set the value of properties in an event processor or global configuration element
+    - Are enclosed in #[]
+- Can access all parts of Mule event, info about mule flow, instance, server, etc.
+
+- Functions are packaged in modules
+- Functions in the Core module are imported automatically into dataweave scripts
+- For function reference - https://docs.mulesoft.com/dataweave/latest/dw-functions
+
+--------------------------------------------------------------------------------
+Creating Variables
+--------------------------------------------------------------------------------
+
+- Create variables to store metadata for the mule event
+- Use the set variable transformer to create a variable
+- In expressions, reference as vars - #[vars.foo]

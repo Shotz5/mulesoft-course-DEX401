@@ -1,0 +1,161 @@
+--------------------------------------------------------------------------------
+Creating transformations with the Transform Message component
+--------------------------------------------------------------------------------
+
+- Where does the code go?
+- Can it be reused?
+- Expression saved inline in the Mule config folder
+- Sample data used for live preview is stored in src/test/resources
+- In the Transform Message component, click the Edit Current Target button and set source code to file
+    - Transform saved in a DWL file
+    - DWL files are stored in src/main/resources
+- A single script can be stored in an external DWL file and references
+    - In the Transform Message component using the resource attribute
+    - In an element that has an expression property (like choice router) using the ${file::filename} syntax
+- Can also create modules of reusable DataWeave functions
+- You can create multiple transformations with one Transform Message component 
+
+--------------------------------------------------------------------------------
+Writing DataWeave transformation expressions
+--------------------------------------------------------------------------------
+
+- The dataweave expression is a data model for the output
+    - It is not dependent upon the types of the input and output, just their structures
+    - It's against this model that the transform executes
+    - The data model of the producted output can consist of three different types of data
+        - Objects
+        - Arrays
+        - Simple literals
+- Input -> Transform -> Output
+    - Header contains directives that apply to the body expression
+    - The body contains a Dataweave expression that generates the output structure
+- Header directives
+    - application/json
+    - application/java
+    - application/xml
+    - text/plain
+    - application/dw
+    - application/csv
+    - application/xlsx
+    - application/flatfile (Flat File, Cobol Copybook, Fixed Width)
+    - multipart/*
+    - application/octet-stream
+    - application/x-www-form-urlencoded
+- Scripting errors
+    - Syntax error
+- Formatting errors
+    - Problem with how the transformation from one format to another is written
+    - scipt to output XML wihtout a single root node
+- Transform the input to application/dw
+    - If transform works, error is likely a formatting error
+- Normal comment rules
+
+--------------------------------------------------------------------------------
+Transforming basic data structures
+--------------------------------------------------------------------------------
+
+- XML can only have one top-level value and that value must be an object with one property
+- Use @(attrName: attValue) to create an attribute
+- By default, only XML elements and not attributes are created as JSON fields or Java object properties
+- use @ to reference attributes
+
+--------------------------------------------------------------------------------
+Transforming complex data structures with arrays
+--------------------------------------------------------------------------------
+
+- Use the map function to apply a transformation to each element in an array
+    - The input array can be JSON or Java
+    - Returns an array of elements
+
+payload = array, inside map = transformation function to apply to each elements (lambda)
+payload map {
+
+}
+
+- Inside the transformation function
+    - $$ refers to the index or key
+    - $ refers to the value
+- Use explicit arguments in lambdas for more readable code
+
+payload map (object, index) -> {
+
+}
+
+--------------------------------------------------------------------------------
+Transforming complex XML data structures
+--------------------------------------------------------------------------------
+
+- XML has no support for arrays LOL
+- When mapping array elements (JSON or JAVA) to XML, wrap the map function in {( .. )}
+    - {} are defining the object
+    - () are transforming each elements in the array as a key/value pair
+- Use .* selector to reference repeated elements
+- Make sure you look at RAW and not pretty response
+
+--------------------------------------------------------------------------------
+Defining and using variables and functions
+--------------------------------------------------------------------------------
+
+- Use the var directive in the header
+- Assign it a constant or lambda expression
+    - DataWeave is a function programming language where variables behave just like functions
+- Global variables can be referenced anywhere in the body
+- DataWeave includes an alternate syntax to access lambda expressions assigned to a variable as functions
+- Use the do keyword with the syntax
+    - do {<variable declaration header> --- <body>}
+- Local variables can only be referenced within the scope
+
+--------------------------------------------------------------------------------
+Formatting and coercing data
+--------------------------------------------------------------------------------
+
+- To coerce an operant to a different datatype, use the "as" directive
+- price: payload.price as Number
+- prive: $.price as Number {class:"java.lang.Double"}
+
+- Defined types include
+    - Any (top level)
+    - Null, String, Number, Boolean
+    - Object, Array, Range
+    - Date, Time, LocalTime, DateTime, LocalDateTime, TimeZone, Period
+    - More..
+- Use the metadata format schema property to format numbers and dates
+    - price as Number as String {format: "###.00"},
+    - someDate as DateTime {format:"yyyyMMddHHmm"}
+    - JavaSE 8 docs on DecimalFormat and DateTimeFormatter
+
+--------------------------------------------------------------------------------
+Using custom data types
+--------------------------------------------------------------------------------
+
+- Use the type header directive
+    - Lead with an uppercase letter, no special chars
+- Specify inline
+    - customer:payload.User as Object {class:"my.company.user"}
+- Or define a custom data type to use
+    - type User = Object {class:"my.company.user"}
+    ---
+    - customer:payload.User as User
+
+--------------------------------------------------------------------------------
+Using DataWeave functions
+--------------------------------------------------------------------------------
+
+- Functions are packaged in modules
+- Functions in the core module are imported automatically into DataWeave scripts
+- Functions with two params can invoke using alternate syntax
+- Functions in all other modules must be imported
+    - import dasherize from dw::core::Strings
+        - dasherize(fjklsdajlf)
+    - import dw::core::Strings
+        - Strings::dasherize
+
+--------------------------------------------------------------------------------
+Looking up data by calling a flow
+--------------------------------------------------------------------------------
+
+- Use the lookup function
+    - {a: lookup("myFlow", {b:"Hello"}) }
+    - First argument if the name of the flow to be called (no subflows)
+    - Second arg is the payload to send to the flow as a map
+    - Whatever payload the flow returns is what the expression returns

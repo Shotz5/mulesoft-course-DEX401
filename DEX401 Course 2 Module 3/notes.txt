@@ -1,0 +1,44 @@
+--------------------------------------------------------------------------------
+Consuming web services that have an API (and connector) in exchange
+--------------------------------------------------------------------------------
+
+- Many connectors in Excchange package an easy way to make calls to an API
+- Modules are extensions to Mule rumntime that youy can use when building a Mule App
+    - HTTP, DB, Salesforce, SAP, Slack, etc.
+- Connectors are modules that connect to an external server
+    - HTTP, DB, Salesforce, SAP, Slack
+- Type of selector is specified in its tags on exchange
+- Premium, Select, Mule Cert, Community
+- REST CONNECT is the tool that generates connectors for RESTful APIs
+    - Resides in Exchange and automatically invoked when an API is added
+    - Works for RAML 1.0 or OAS API specs
+    - Both Mule 3 and 4
+- You can use the connector in Anypoint Studio or Flow Designer
+- Download connectors from the drop down menu in exchange
+- Some modules are pre-installed
+- Some modules are not pre-ionstalled
+- If connectors are not pre-installed, you can search anypoint and add them to a project
+
+--------------------------------------------------------------------------------
+Consuming RESTful Web Services
+--------------------------------------------------------------------------------
+
+- First check and see if there is an Anypoint Connector
+- If not, use HTTP connector and its Request operation
+    - Configure the operation
+    - Specify any headers, query params, or headers required
+
+--------------------------------------------------------------------------------
+Consume a SOAP web service
+--------------------------------------------------------------------------------
+
+- If there is no Anypoint connector, use the Web Service Consumer connector
+- Use the Transform Message component to pass arguments to a SOAP web service
+- Could also be used to set the required input payload
+
+--------------------------------------------------------------------------------
+Combining data from multiple services
+--------------------------------------------------------------------------------
+
+- Data from diferent services is almost always in different formats
+- To combine the data sets, you need to transform each of them to a canoical or standard format

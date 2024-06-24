@@ -1,2 +1,21 @@
 http:
   port: "8081"
+  
+american:
+  host: "training4-american-api-akitsul.us-e2.cloudhub.io"
+  port: "80"
+  basepath: "/"
+  protocol: "HTTP"
+  client_id: "9e34ac1c6a0b4a05a3fd20105af03888"
+  client_secret: "545C483798304501Bea460D2128bD0Ff"
+  
+training:
+  host: "mu.mule-training.com"
+  port: "80"
+  basepath: "/"
+  protocol: "HTTP"
+  
+delta:
+  wsdl: "http://mu.mule-training.com/delta?wsdl"
+  service: "TicketServiceService"
+  port: "DeltaFlightsServiceImplPort"

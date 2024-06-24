@@ -1,0 +1,171 @@
+--------------------------------------------------------------------------------
+Reviewing the default handling of messaging errors
+--------------------------------------------------------------------------------
+
+- When an event is being processed through the Mule flow that throws an error
+    - Normal flow execution stops
+    - The event is passed to the first processor in an error handler
+    - Event Source -> Event Processor -> EventProcessor -/> EventProcessor
+        - ErrorHandler -> OnError -> EventProcessor -> EventProcessor
+    - Flow level error handler
+- If there is no error handler defined, a mule default error handler is used
+    - Implcity and globally handles all messaging errors thrown in Mule apps
+    - Stops execution of the flow and logs information about the error
+    - Non-configurable
+- When an error is thrown, an error object is created
+- Type of its properties include
+    - error.description - a string
+    - error.errorType - an object
+- Error types are identified by a namespace and an identifier
+    - HTTP:UNAUTHORIZED
+    - namespace:identifier
+- Each error type has a parent
+    - HTTP:UNAUTHORIZED
+        - MULE:CLIENT_SECURITY
+            - MULE:SECURITY
+    - VALIDATION:INVALID_BOOLEAN
+        - VALIDATION:VALIDATION
+            - MULE:VALIDATION
+- The error type MULE:ANY is the most general parent
+- Critical errors cannot be handled
+- General errors can be handled
+- Unknown error type
+- By default, for a success response
+    - A status of 200, and payload
+- By default, for an error response
+    - A status of 500
+    - Error description
+- Can override these values for an HTTP listener
+
+--------------------------------------------------------------------------------
+Creating error handlers
+--------------------------------------------------------------------------------
+
+- Error handlers can be added to
+    - An application (outside of any flows)
+    - A flow
+    - A selection of one of more event processors
+- Error handler can contain one or more event handler scopes
+    - On error continue
+        - All processors in the error handling scope are executed
+        - At the end of the scope
+            - The rest of the flow that threw the error is not executed
+            - The event is passed up to the next level as if the flow execution had completed successfully
+        - an HTTP listener returns a successful response
+    - On error propogate
+        - All processors in the error handling scope are executed
+        - At the end of the scope
+            - The rest of the flow that threw the error is not executed
+            - The error is rethrown up to the next level and handled there
+        - an HTTP Listener returns an error response
+- Each error scope can contain any number of event processors
+
+--------------------------------------------------------------------------------
+Handling errors at the application level
+--------------------------------------------------------------------------------
+
+- Add an error handler outside a flow
+    - Typically in global.xml
+- Specify this handler to be the applications default error handler
+
+--------------------------------------------------------------------------------
+Handling specific types of errors
+--------------------------------------------------------------------------------
+
+- Each error handler can contain one of more error handler scopes
+    - Any number of On Error Continue and/or On Error Propogate
+- Each error handler scope specifies when it should be executed
+    - The error is handled by the first error scope whose condition evaluates to true
+- Set type to any (default) or one or more types or errors
+- Set the WHEN condition to a boolean dataweave expression
+    - HTTP:UNAUTHORIZED
+    - error.errorType.namespace == 'HTTP'
+    - etc.
+
+--------------------------------------------------------------------------------
+Handling errors at the flow level
+--------------------------------------------------------------------------------
+
+- All flows (except subflows) can have their own error handlers
+- Any number or error scopes can be added to a flow
+- If a flow has an error handler
+    - The error is handled by the first error scope whose condition evaluates to true
+    - If no scope conditions are true, the error is handled by the mule default error handler NOT any scope in an applications default error handler
+        - The mule default error handler propogates the error up the execution chain where there may or may not be handlers
+- If a flow does not have an error handler
+    - The error is handled by a scope in an application's default error handler (the first whose scope condition is true, which may propogate or continue) otherwise it is handled by the mule default error handler
+
+--------------------------------------------------------------------------------
+Handling errors at the processor level
+--------------------------------------------------------------------------------
+
+- For more fine grain error handling of elements within a flow, use the Try scope
+- Any number of processors can be added to a Try scope
+- The Try scope has its own error handling section to which one or more error scopes can be added
+- On error propogate
+    - All processors in the error handling scope are executed
+    - At the end of the scope
+        - The rest of the Try scope is not executed
+        - If a transaction is being handled, it is rolled back
+        - The error is rethrown up the execution chain to the parent flow, which handles the error
+    - an HTTP listener returns an error response
+- On error continue
+    - All processors in the error handling scope are executed
+    - At the end of the scope
+        - The rest of the Try scope is not executed
+        - If a transaction is being handled, it is committed
+        - The event is passed up to the parent flow, which continues execution
+    - an HTTP Listener returns a successful response
+
+--------------------------------------------------------------------------------
+Mapping errors to custom error types
+--------------------------------------------------------------------------------
+
+- If an app has two HTTP Request operations that call different REST services, a connectivity failure on either produces the same error
+    - Difficult to identify source of the error in logs
+- Differentiate by mapping each connectivity error to custom error types
+- These custom error types enable you to differentiate exactly where an error occurred\
+- For each module operation in a flow, each possible error type can be mapped to a custom error type
+- You can assign a custom namespace and identifier to distinguish them from other existing types within an application
+    - Define namespaces related to the particular Mule application name or context
+        - CUSTOMER namespace for errors with a customer aggregation API
+        - ORDER namespace for errors with an order processing API
+    - Do not using existing module namespaces
+    - Identifiers and namespaces much consist only of capital letters and underscores
+
+--------------------------------------------------------------------------------
+Reviewing and integrating with APIkit error handling
+--------------------------------------------------------------------------------
+
+- By default, interface created with APIkit have error handlers with multiple On Error Propagate scopes that handle APIkit errors
+    - The error scopes get HTTP status codes and response messages
+- The main routing flow has six error scopes
+    - APIKIT:BAD_REQUEST > 400
+    - APIKIT:NOT_FOUND > 404
+    - APIKIT:METHOD_NOT_ALLOWED > 405
+    - APIKIT:NOT_ACCEPTABLE > 406
+    - APIKIT:UNSUPPORTED_MEDIA_TYPE > 415
+    - APIKIT:NOT_IMPLEMENTED > 501
+- TYou can modify the APIkit error scopes and add additional scopes
+- You also need to make sure the error handling in the application works as expected with the new interface router
+    - On error continue
+        - Event in imeplementation is not passed back to main router flow
+    - On error propagate
+        - Error in implementation is propagated to main router flow
+            - Payload and variables are propagated as well
+
+--------------------------------------------------------------------------------
+Handling system errors
+--------------------------------------------------------------------------------
+
+- Messaging errors
+    - thrown within a flow whenever a Mule event is involved
+- System errors
+    - Thrown at the system-level when no Mule event is involved
+    - Errors that occur
+        - During application start-up
+        - When a connection to an external system fails
+    - Handled by a system error handling strategy
+        - Non-configurable
+        - Logs the error and for connection failures, executes the reconnection strategy
+- Set for a connector (in Global Elements Properties) or for a specific connector operation (in Properties view)

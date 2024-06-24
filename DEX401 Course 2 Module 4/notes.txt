@@ -1,0 +1,37 @@
+--------------------------------------------------------------------------------
+Routing Events
+--------------------------------------------------------------------------------
+
+- Learned how to do async references using VM and sync using flow reference
+- Routers send events to one of more groups of processors
+- Choice
+    - Route executed based on conditional logic
+- First Successful
+    - Routes executed sequentially until one successfully executes
+- Round Robin
+    - One route executed, which one is selected by iterating through a list maintained across executioins
+- Scatter-Gather
+    - All routes executed concurrently
+
+--------------------------------------------------------------------------------
+Multicasting Routes
+--------------------------------------------------------------------------------
+
+- Scatter gather sends the event to each route concurrently and returns a collection of all results
+- Collection is an object of objects
+    - Each object contains attributes and payload from each Mule event returned from a flow
+
+--------------------------------------------------------------------------------
+Route events based on conditions
+--------------------------------------------------------------------------------
+
+- Choice router sends the event to one route based on conditional logic
+- The conditions are written in DataWeave
+
+--------------------------------------------------------------------------------
+Validating events
+--------------------------------------------------------------------------------
+
+- Provide a way to test some conditions are met and throw an error if the validation fails
+- Add the validation module
+- Select a validation operation

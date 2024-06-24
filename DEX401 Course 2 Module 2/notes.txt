@@ -72,3 +72,51 @@ Organizing and parameterizing application properties
 - Using property placeholders
 - Can be encrypted
 - Can be overriden by system properties in different environments
+- Create a config.yaml file in the resources folder
+- Define properties in the hierarchical YAML file
+- Create config properties global element
+- Two formats
+    - in global element config and event processors: ${db.port}
+    - In dataweave expressions {port: Mule::p('db.port')}
+- Use system proprties to override property values when deploying to different environments
+- Set system properties (JVM params) from
+    - Anypoint studio
+    - Command line for standalone mule instance
+        - mule -M-Ddb.database=training2 -M-Ddb.password=mule2
+
+--------------------------------------------------------------------------------
+Organizing Mule project files
+--------------------------------------------------------------------------------
+
+- The names of the folders indicate what they should contain
+    - src/test folders should contain files only needed at development time
+        - (schema, and example files for metadata types, sample data for transformations)
+        - They are not included in the JAR
+    - src/main becomes part of JAR
+- Maven is a tool for building any Java-based project that contains
+    - A standard way to build projects
+    - Clear definitioin of what a project consists of
+    - An easy way to publish project information
+    - A way to share JARs across several projects
+- Maven manages a projects build, reporting, and documentation from a central piece of information, the project object model (POM)
+- A Maven build produces one of more artifacts, like a compiled JAR
+    - Each artifact has a group ID (usually a reversed domain name, like com.example.foo) an artiface id (name) and a version string
+
+- POM is an XML file that contains info about the project and config details used by Mavel to build the project including
+    - Project info like version, description, devs, and more
+    - Project dependencies
+    - Plugins or goals that can be executed
+
+--------------------------------------------------------------------------------
+Managing metadata for a project
+--------------------------------------------------------------------------------
+
+- It is often beneficial to define metadata for an application
+    - For the output structures required for transformations
+    - For the output of operations that can connect to data sources of different structures
+    - For the output of connectors that are not DataSense enabled
+- From the Transform Message component
+- From the metadata tab in the properties view for most event processors
+- From a projects menu in the package explorer
+- application-types.xml in src/main/resources
+    - Stores all manually created metadata

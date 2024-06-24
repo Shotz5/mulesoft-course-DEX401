@@ -1,0 +1,8 @@
+http:
+  port: "8081"
+  
+  
+sfdc:
+  username: "akitsul@testco.test"
+  password: "a!&KvA6wgdQVZj"
+  token: "qRxED4ZArq7dx0347WKZuKRGq"
